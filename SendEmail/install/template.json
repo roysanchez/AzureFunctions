@@ -1,0 +1,113 @@
+{
+    "resources": [
+        {
+            "name": "[parameters('name')]",
+            "type": "Microsoft.Web/sites",
+            "properties": {
+                "siteConfig": {
+                    "appSettings": 
+                    [
+                        {
+                          "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                          "value": "[reference(concat('microsoft.insights/components/', parameters('insightsName')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                          "name": "AzureWebJobsDashboard",
+                          "value": "[parameters('storageConnectionString')]"
+                        },
+                        {
+                          "name": "AzureWebJobsSendGridApiKey",
+                          "value": "[concat('@Microsoft.KeyVault(SecretUri=', parameters('sendGridAPIKeyVaultURL'), ')')]"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[parameters('storageConnectionString')]"
+                        },
+                        {
+                          "name": "Container_Name",
+                          "value": "[parameters('containerName')]"
+                        },
+                        {
+                          "name": "FromEmail",
+                          "value": "[parameters('fromEmail')]"
+                        },
+                        {
+                          "name": "FromName",
+                          "value": "[parameters('fromName')]"
+                        },
+                        {
+                          "name": "FUNCTIONS_EXTENSION_VERSION",
+                          "value": "~2"
+                        },
+                        {
+                          "name": "FUNCTIONS_WORKER_RUNTIME",
+                          "value": "dotnet"
+                        },
+                        {
+                          "name": "WEBSITE_RUN_FROM_PACKAGE",
+                          "value": "1"
+                        }
+                      ],
+                    "alwaysOn": true
+                },
+                "name": "[parameters('name')]",
+                "clientAffinityEnabled": false,
+                "serverFarmId": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourcegroups/', parameters('serverFarmResourceGroup'), '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "hostingEnvironment": ""
+            },
+            "dependsOn": [
+                "[ResourceId('microsoft.insights/components', parameters('insightsName'))]"
+            ],
+            "apiVersion": "2016-03-01",
+            "location": "[parameters('location')]",
+            "kind": "functionapp"
+        },
+        {
+            "apiVersion": "2015-05-01",
+            "name": "[parameters('insightsName')]",
+            "type": "microsoft.insights/components",
+            "location": "[parameters('location')]",
+            "properties": {
+                "ApplicationId": "[parameters('name')]",
+                "Request_Source": "IbizaWebAppExtensionCreate"
+            }
+        }
+    ],
+    "parameters": {
+        "name": {
+            "type": "string"
+        },
+        "insightsName":{
+            "type": "string"
+        },
+        "storageConnectionString": {
+            "type": "string"
+        },
+        "hostingPlanName": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        },
+        "serverFarmResourceGroup": {
+            "type": "string"
+        },
+        "subscriptionId": {
+            "type": "string"
+        },
+        "sendGridAPIKeyVaultURL": {
+            "type": "string"
+        },
+        "containerName":{
+            "type": "string"
+        },
+        "fromEmail":{
+            "type": "string"
+        },
+        "fromName":{
+            "type": "string"
+        }
+    },
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0"
+}

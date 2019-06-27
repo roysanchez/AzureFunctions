@@ -1,0 +1,39 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "testsendemail"
+        },
+        "insightsName":{
+            "value": "AI-testsendemail"
+        },
+        "storageConnectionString": {
+            "value": ""
+        },
+        "hostingPlanName": {
+            "value": "Desarrollo-Service-Plan"
+        },
+        "location": {
+            "value": "East US"
+        },
+        "serverFarmResourceGroup": {
+            "value": "GestionSolucionesTI-Comunes"
+        },
+        "subscriptionId": {
+            "value": ""
+        },
+        "sendGridAPIKeyVaultURL":{
+            "value": ""
+        },
+        "containerName":{
+            "value": "email-attachments"
+        },
+        "FromEmail":{
+            "value": ""
+        },
+        "FromName": {
+            "value": "Gestion Soluciones TI"
+        }
+    }
+}
